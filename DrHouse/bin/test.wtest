@@ -1,0 +1,17 @@
+import drHouse.*
+
+test "Frank contrae malaria de 800"{
+	var malaria = new EnfermedadInf(800)
+	var enfermedades = []
+	var frank = new Persona (3500000,enfermedades)
+	frank.contraerEnfermedad(malaria)
+	assert.equals([malaria], frank.enfermedades())
+}
+
+test "reproducir malaria de Logan"{
+	var malaria = new EnfermedadInf(500)
+	var enfermedades = []
+	var logan = new Persona (3000000, enfermedades)
+	logan.contraerEnfermedad(malaria)
+	assert.equals(1000, malaria.reproducir())
+}

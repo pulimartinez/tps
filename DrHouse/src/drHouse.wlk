@@ -1,5 +1,7 @@
 class EnfermedadInf{
 	var celulasAmenazadas
+	var dias
+	
 	
 	constructor (unasCelulasAmenazadas) {
 	self.setCelulasAmenazadas(unasCelulasAmenazadas)
@@ -16,19 +18,24 @@ class EnfermedadInf{
 	method reproducir(){
 		return 2*celulasAmenazadas
 	}
-	
-	method modificarTemperatura(persona){
-	 return (persona.temperatura() + (1/1000 * self.reproducir()))>45
-	}
-	
+
 	method esAgresiva(persona){
 		return self.celulasAmenazadas() > 0.1* persona.celulasDelCuerpo()
 	}
 	
+	method dias(){
+		return dias
+	}
+	
+	method afectarA(persona){
+	persona.aumentartemperatura(1/1000 * self.reproducir())
+	}
+
 }
 
 class EnfermedadAuto{
 	var celulasAmenazadas
+	var dias
 	
 	constructor (unasCelulasAmenazadas){
 	self.setCelulasAmenazadas(unasCelulasAmenazadas)
@@ -49,15 +56,25 @@ class EnfermedadAuto{
 	method esAgresiva(persona){
 		return persona.tiempo() > 30
 	}
+	
+	method dias(){
+		return dias
+	}
+	
+	method afectarA(persona){
+		persona.disminuirCelulas()
+	}
 }
 
 
 class Persona{
 	var temperatura = 36
 	var celulasDelCuerpo
-	var enfermedades
+	var enfermedades = []
 
-	constructor (unasCelulasDelCuerpo, listaEnfermedades){
+
+	constructor (unatemperatura,unasCelulasDelCuerpo, listaEnfermedades){
+	temperatura = unatemperatura
 	self.setCelulasDelCuerpo(unasCelulasDelCuerpo)
 	self.setEnfermedades(listaEnfermedades)
 	}
@@ -85,6 +102,34 @@ class Persona{
 	
 	method enfermedades(){
 		return enfermedades
+	}
+	
+	method viveUnDia(){
+		enfermedades.forEach({enfermedad => enfermedad.afectarA(self) 
+			
+		})
+		
+	}
+	
+	method aumentarTemperatura(grados){
+		temperatura = temperatura + grados
+	}
+	
+	method disminuirCelulas(celulas){
+		celulasDelCuerpo = celulasDelCuerpo - celulas
+	}
+	
+	method estaEnComa(){
+		return temperatura == 45
+	}
+	 
+}
+
+class Medico inherits Persona {
+	var dosis
+	
+	constructor (temp, cantCelu,unaDosis) = super (temp,cantCelu) {
+		dosis = unaDosis
 	}
 }
 
